@@ -79,6 +79,7 @@ bool MicrostrainConfig::configure(RosNodeType* node)
   get_param<std::string>(node, "filter_frame_id", filter_frame_id_, filter_frame_id_);
   get_param<std::string>(node, "filter_child_frame_id", filter_child_frame_id_, filter_child_frame_id_);
   get_param<bool>(node, "publish_relative_position", publish_filter_relative_pos_, false);
+  get_param<bool>(node, "publish_pressure_altitude", publish_filter_pressure_altitude_, false);
   get_param<double>(node, "gps_leap_seconds", gps_leap_seconds_, 18.0);
   get_param<bool>(node, "filter_angular_zupt", angular_zupt_, false);
   get_param<bool>(node, "filter_velocity_zupt", velocity_zupt_, false);
@@ -663,7 +664,8 @@ bool MicrostrainConfig::configureFilter(RosNodeType* node)
     mscl::MipTypes::ChannelField::CH_FIELD_ESTFILTER_COMPENSATED_ACCEL,
     mscl::MipTypes::ChannelField::CH_FIELD_ESTFILTER_ESTIMATED_ORIENT_EULER,
     mscl::MipTypes::ChannelField::CH_FIELD_ESTFILTER_HEADING_UPDATE_SOURCE,
-    mscl::MipTypes::ChannelField::CH_FIELD_ESTFILTER_NED_RELATIVE_POS
+    mscl::MipTypes::ChannelField::CH_FIELD_ESTFILTER_NED_RELATIVE_POS,
+    mscl::MipTypes::ChannelField::CH_FIELD_ESTFILTER_PRESSURE_ALTITUDE
   };
 
   if (filter_enable_gnss_pos_vel_aiding_)

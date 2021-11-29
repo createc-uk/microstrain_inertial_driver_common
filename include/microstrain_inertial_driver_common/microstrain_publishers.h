@@ -65,6 +65,7 @@ public:
   // Filter Publishers
   FilterStatusPubType filter_status_pub_;
   FilterHeadingPubType filter_heading_pub_;
+  FilterPressureAltitudePubType filter_pressure_altitude_pub_;
   FilterHeadingStatePubType filter_heading_state_pub_;
   OdometryPubType filter_pub_;
   ImuPubType filtered_imu_pub_;
@@ -98,6 +99,7 @@ public:
   FilterStatusMsg filter_status_msg_;
   FilterHeadingStateMsg filter_heading_state_msg_;
   FilterHeadingMsg filter_heading_msg_;
+  FilterPressureAltitudeMsg filter_pressure_altitude_msg_;
 
   // Device Status Message
   StatusMsg device_status_msg_;

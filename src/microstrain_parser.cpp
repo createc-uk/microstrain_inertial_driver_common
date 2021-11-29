@@ -302,6 +302,11 @@ void MicrostrainParser::parseFilterPacket(const mscl::MipDataPacket& packet)
   publishers_->filtered_imu_msg_.header.stamp = to_ros_time(time);
   publishers_->filtered_imu_msg_.header.frame_id = config_->filter_frame_id_;
 
+  // Filtered pressure altitude estimate timestamp and frame
+  set_seq(&publishers_->filter_pressure_altitude_msg_.header, filter_valid_packet_count_);
+  publishers_->filter_pressure_altitude_msg_.header.stamp = to_ros_time(time);
+  publishers_->filter_pressure_altitude_msg_.header.frame_id = config_->filter_frame_id_;
+
   // Nav odom timestamp and frame
   set_seq(&publishers_->filter_msg_.header, filter_valid_packet_count_);
   publishers_->filter_msg_.header.stamp = to_ros_time(time);
@@ -818,6 +823,15 @@ void MicrostrainParser::parseFilterPacket(const mscl::MipDataPacket& packet)
       }
       break;
 
+      case mscl::MipTypes::CH_FIELD_ESTFILTER_PRESSURE_ALTITUDE:
+      {
+        if (point.qualifier() == mscl::MipTypes::CH_ALTITUDE)
+        {
+          publishers_->filter_pressure_altitude_msg_.altitude = point.as_float();
+        }
+      }
+
+      break;
       default:
         break;
     }
@@ -840,6 +854,9 @@ void MicrostrainParser::parseFilterPacket(const mscl::MipDataPacket& packet)
 
     if (config_->publish_gnss_dual_antenna_status_ && gnss_dual_antenna_status_received)
       publishers_->gnss_dual_antenna_status_pub_->publish(publishers_->gnss_dual_antenna_status_msg_);
+
+    if(config_->publish_filter_pressure_altitude_)
+      publishers_->filter_pressure_altitude_pub_->publish(publishers_->filter_pressure_altitude_msg_);
   }
 
   if (config_->publish_filter_relative_pos_)

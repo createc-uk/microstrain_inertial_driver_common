@@ -103,6 +103,11 @@ bool MicrostrainPublishers::configure()
     filter_heading_state_pub_ = create_publisher<FilterHeadingStateMsg>(node_, "nav/heading_state", 100);
     filtered_imu_pub_ = create_publisher<ImuMsg>(node_, "nav/filtered_imu/data", 100);
 
+    if(config_->publish_filter_pressure_altitude_)
+    {
+      filter_pressure_altitude_pub_ = create_publisher<FilterPressureAltitudeMsg>(node_, "nav/pressure_altitude", 100);
+    }
+
     if (config_->filter_enable_gnss_heading_aiding_)
     {
       gnss_dual_antenna_status_pub_ =
